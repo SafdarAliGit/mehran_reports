@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include mehran_reports *.css
+recursive-include mehran_reports *.csv
+recursive-include mehran_reports *.html
+recursive-include mehran_reports *.ico
+recursive-include mehran_reports *.js
+recursive-include mehran_reports *.json
+recursive-include mehran_reports *.md
+recursive-include mehran_reports *.png
+recursive-include mehran_reports *.py
+recursive-include mehran_reports *.svg
+recursive-include mehran_reports *.txt
+recursive-exclude mehran_reports *.pyc
