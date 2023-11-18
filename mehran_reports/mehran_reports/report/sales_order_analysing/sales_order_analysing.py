@@ -41,6 +41,12 @@ def get_columns():
             "options": "Item",
             "width": 150
         }
+        ,{
+            "label": _("Description"),
+            "fieldname": "description",
+            "fieldtype": "Data",
+            "width": 150
+        }
         ,
         {
             "label": _("Sales Order Qty"),
@@ -87,6 +93,7 @@ def get_data(filters):
             `tabSales Order`.customer,
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
+            `tabSales Order Item`.description,
             SUM(`tabSales Order Item`.qty) AS so_qty,
             (
                 SELECT COALESCE(SUM(`tabDelivery Note Item`.qty),0)
