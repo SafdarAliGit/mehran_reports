@@ -90,12 +90,7 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 180
         },
-        {
-            "label": _("ITI"),
-            "fieldname": "iti_rate",
-            "fieldtype": "Currency",
-            "width": 180
-        },
+
         {
             "label": _("Gross Rate"),
             "fieldname": "gross_rate",
@@ -140,8 +135,8 @@ def get_data(filters):
                 (pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) AS cost_rate,
                 ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) AS gst_rate,
                 ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100) AS ast_rate,
-                ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100)+((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.ITI, 0)/100)) AS gross_rate,
-                (((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100)+((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.ITI, 0)/100))*pii.qty) AS grand_total
+                ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100)) AS gross_rate,
+                (((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100))*pii.qty) AS grand_total
             FROM
                 `tabPurchase Invoice` pi
             LEFT JOIN
