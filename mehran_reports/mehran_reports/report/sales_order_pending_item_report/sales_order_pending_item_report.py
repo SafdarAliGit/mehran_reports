@@ -53,6 +53,11 @@ def get_columns():
             "fieldname": "so_qty",
             "fieldtype": "Data",
             "width": 150
+        },{
+            "label": _("Nos"),
+            "fieldname": "nos",
+            "fieldtype": "Data",
+            "width": 150
         }
         ,
         {
@@ -94,6 +99,7 @@ def get_data(filters):
             `tabSales Order`.name AS sales_order_no,
             `tabSales Order Item`.item_code,
             `tabSales Order Item`.description,
+            `tabSales Order Item`.nos,
             SUM(`tabSales Order Item`.qty) AS so_qty,
             (
                 SELECT COALESCE(SUM(`tabDelivery Note Item`.qty),0)
