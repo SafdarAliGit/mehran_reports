@@ -72,6 +72,12 @@ def get_columns():
             "fieldname": "balance",
             "fieldtype": "Data",
             "width": 150
+        } ,
+        {
+            "label": _("Remarks"),
+            "fieldname": "remarks",
+            "fieldtype": "Data",
+            "width": 150
         }
 
     ]
@@ -97,6 +103,7 @@ def get_data(filters):
             `tabSales Order`.transaction_date AS posting_date,
             `tabSales Order`.customer,
             `tabSales Order`.name AS sales_order_no,
+            `tabSales Order`.remarks,
             `tabSales Order Item`.item_code,
             `tabSales Order Item`.description,
             SUM(`tabSales Order Item`.nos) AS nos,
