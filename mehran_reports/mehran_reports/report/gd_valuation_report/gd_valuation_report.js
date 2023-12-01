@@ -22,7 +22,9 @@ frappe.query_reports["GD Valuation Report"] = {
             label: __("Item Code"),
             fieldname: "item_code",
             fieldtype: "Link",
-            options: "Item"
+            options: "Item",
+			default: "001",
+			reqd: 0
         }
     ],
 };

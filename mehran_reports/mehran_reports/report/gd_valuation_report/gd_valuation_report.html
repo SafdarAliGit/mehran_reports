@@ -63,20 +63,21 @@
 <table class="table table-bordered table-condensed">
     <thead>
     <tr>
-        <th style="width: 8%; text-align: left;">{%= __("Date") %}</th>
-        <th style="width: 16%; text-align: left;">{%= __("Supplier") %}</th>
+        <th style="width: 7%; text-align: left;">{%= __("Date") %}</th>
+        <th style="width: 14%; text-align: left;">{%= __("Supplier") %}</th>
         <th style="width: 11%;text-align: left;">{%= __("Item") %}</th>
-        <th style="width: 8%;text-align: left;">{%= __("Batch#") %}</th>
+        <th style="width: 7%;text-align: left;">{%= __("Batch#") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("Quantity") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("Rate") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("CD") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("RD") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("ACD") %}</th>
         <th style="width: 6%;text-align: right;">{%= __("Cost Rate") %}</th>
+        <th style="width: 5%;text-align: right;">{%= __("Cost Total") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("GST") %}</th>
         <th style="width: 5%;text-align: right;">{%= __("AST") %}</th>
         <th style="width: 7%;text-align: right;">{%= __("Gross Rate") %}</th>
-        <th style="width: 8%;text-align: right;">{%= __("Grand Total") %}</th>
+        <th style="width: 7%;text-align: right;">{%= __("Grand Total") %}</th>
 
     </tr>
     </thead>
@@ -94,6 +95,7 @@
         <td style="text-align: right;">{%= format_currency(data[i].rd_rate, data[i].currency) %}</td>
         <td style="text-align: right;">{%= format_currency(data[i].acd_rate, data[i].currency) %}</td>
         <td style="text-align: right;">{%= format_currency(data[i].cost_rate, data[i].currency) %}</td>
+        <td style="text-align: right;">{%= format_currency(data[i].cost_total, data[i].currency) %}</td>
         <td style="text-align: right;">{%= format_currency(data[i].gst_rate, data[i].currency) %}</td>
         <td style="text-align: right;">{%= format_currency(data[i].ast_rate, data[i].currency) %}</td>
         <td style="text-align: right;">{%= format_currency(data[i].gross_rate, data[i].currency) %}</td>

@@ -106,10 +106,10 @@ def get_data(filters):
             `tabSales Order`.remarks,
             `tabSales Order Item`.item_code,
             `tabSales Order Item`.description,
-            SUM(`tabSales Order Item`.nos) AS nos,
-            SUM(`tabSales Order Item`.qty) AS so_qty,
+            `tabSales Order Item`.nos,
+            `tabSales Order Item`.qty AS so_qty,
             (
-                SELECT COALESCE(SUM(`tabDelivery Note Item`.qty),0)
+                SELECT `tabDelivery Note Item`.qty
                 FROM `tabDelivery Note Item`,`tabDelivery Note`
                 WHERE `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order AND `tabSales Order Item`.item_code  =  `tabDelivery Note Item`.item_code AND `tabDelivery Note`.name = `tabDelivery Note Item`.parent AND `tabDelivery Note`.docstatus <= 1
             ) AS dn_qty
@@ -122,12 +122,10 @@ def get_data(filters):
             `tabSales Order`.docstatus <= 1
             AND 
             {conditions}
-        GROUP BY 
-            `tabSales Order`.name, `tabSales Order Item`.item_code
     """.format(conditions=get_conditions(filters, "Sales Order"))
     sales_analytics_result = frappe.db.sql(sales_analytics, filters, as_dict=1)
     for dt in sales_analytics_result:
-        dt.update({"balance":dt.get('so_qty') -dt.get('dn_qty') })
+        dt.update({"balance":dt.get('so_qty') if dt.get('so_qty') else 0 -dt.get('dn_qty',0) if dt.get('dn_qty') else 0 })
     filtered_data = [entry for entry in sales_analytics_result if entry['balance'] != 0]
     data.extend(filtered_data)
     return data

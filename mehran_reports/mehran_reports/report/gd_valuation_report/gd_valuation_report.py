@@ -77,6 +77,11 @@ def get_columns():
             "fieldname": "cost_rate",
             "fieldtype": "Currency",
             "width": 180
+        },{
+            "label": _("Cost Total"),
+            "fieldname": "cost_total",
+            "fieldtype": "Currency",
+            "width": 180
         },
         {
             "label": _("GST"),
@@ -133,6 +138,7 @@ def get_data(filters):
                 pii.rate * COALESCE(ptc.RD, 0)/100 AS rd_rate,
                 pii.rate * COALESCE(ptc.ACD, 0)/100 AS acd_rate,
                 (pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) AS cost_rate,
+                (pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * pii.qty AS cost_total,
                 ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) AS gst_rate,
                 ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100) AS ast_rate,
                 ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.GST, 0)/100) + ((pii.rate + pii.rate * COALESCE(ptc.CD, 0)/100 + pii.rate * COALESCE(ptc.RD, 0)/100 + pii.rate * COALESCE(ptc.ACD, 0)/100) * COALESCE(ptc.AST, 0)/100)) AS gross_rate,
