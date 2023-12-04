@@ -12,9 +12,10 @@
 		<tr>
 			<th style="width: 10%">{%= __("Date") %}</th>
 			<th style="width: 15%">{%= __("Inv/Pay #") %}</th>
-			<th style="width: 10%">{%= __("Qty") %}</th>
-			<th style="width: 10%">{%= __("Rate") %}</th>
-			<th style="width: 10%">{%= __("Amount") %}</th>
+			<th style="width: 10%">{%= __("Commercial Inv#") %}</th>
+			<th style="width: 10%">{%= __("PO#") %}</th>
+			<th style="width: 10%">{%= __("DC#") %}</th>
+			<th style="width: 10%">{%= __("Net Total") %}</th>
 			<th style="width: 15%">{%= __("Debit") %}</th>
 			<th style="width: 15%">{%= __("Credit") %}</th>
 			<th style="width: 15%">{%= __("Balance (Dr - Cr)") %}</th>
@@ -24,12 +25,12 @@
 	<tbody>
 		{% for(var i=0, l=data.length; i<l; i++) { %}
 			<tr>
-			{% if(data[i].posting_date || data[i].particular=='Opening') { %}
 				<td>{%= frappe.datetime.str_to_user(data[i].posting_date) %}</td>
 				<td>{%= data[i].voucher_no %}</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>{%= data[i].commercial_invoice_no %}</td>
+				<td>{%= data[i].po_no %}</td>
+				<td>{%= data[i].dc_no %}</td>
+				<td>{%= format_currency(data[i].net_total,filters.presentation_currency) %}</td>
 				<td style="text-align: right">
 					{%= format_currency(data[i].debit, filters.presentation_currency) %}</td>
 				<td style="text-align: right">
@@ -37,21 +38,6 @@
 				<td style="text-align: right">
 					{%= format_currency(data[i].balance, filters.presentation_currency) %}
 				</td>
-
-			{% } else { %}
-				<td></td>
-				<td>{%= data[i].voucher_no %}</td>
-				<td>{%= data[i].qty %}</td>
-				<td>{%= format_currency(data[i].rate, filters.presentation_currency) %}</td>
-				<td>{%= format_currency(data[i].amount, filters.presentation_currency) %}</td>
-				<td style="text-align: right">
-					{%= data[i].account && format_currency(data[i].debit, filters.presentation_currency) %}
-				</td>
-				<td style="text-align: right">
-					{%= data[i].account && format_currency(data[i].credit, filters.presentation_currency) %}
-				</td>
-				<td></td>
-			{% } %}
 			</tr>
 		{% } %}
 	</tbody>
