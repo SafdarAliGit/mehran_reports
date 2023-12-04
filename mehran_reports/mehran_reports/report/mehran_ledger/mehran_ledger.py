@@ -45,8 +45,14 @@ def get_columns():
             "width": 180
         },
         {
-            "label": _("Tax Amount"),
-            "fieldname": "tax_amount",
+            "label": _("GST Tax"),
+            "fieldname": "gst_tax_amount",
+            "fieldtype": "Currency",
+            "width": 120
+        },
+        {
+            "label": _("Cartage Tax"),
+            "fieldname": "cartage_tax_amount",
             "fieldtype": "Currency",
             "width": 120
         },
@@ -57,7 +63,6 @@ def get_columns():
             "fieldtype": "Currency",
             "width": 120
         },
-
 
         {
             "label": _("Debit"),
@@ -119,12 +124,12 @@ def get_data(filters):
 
     for dt in gl_entry_result:
         sales_invoice = """ SELECT
-                                `tabSales Invoice`.tax_id,
                                 `tabSales Invoice`.commercial_invoice_no,
                                 `tabSales Invoice`.po_no,
                                 `tabSales Invoice`.dc_no,
                                 `tabSales Invoice`.net_total,
-                                `tabSales Taxes and Charges`.tax_amount
+                                `tabSales Taxes and Charges`.tax_amount,
+                                `tabSales Taxes and Charges`.account_head
                             FROM
                                 `tabSales Invoice`
                             LEFT JOIN
@@ -136,9 +141,21 @@ def get_data(filters):
                                  AND (`tabSales Invoice`.name = %(voucher_no)s)
                         """
         sales_invoice_result = frappe.db.sql(sales_invoice, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
+
         if sales_invoice_result:
-            dt.update({"tax_id": sales_invoice_result[0].get("tax_id"),"commercial_invoice_no": sales_invoice_result[0].get("commercial_invoice_no"),"po_no": sales_invoice_result[0].get("po_no"),
-                       "dc_no": sales_invoice_result[0].get("dc_no"),"net_total": sales_invoice_result[0].get("net_total"),"tax_amount": sales_invoice_result[0].get("tax_amount")})
+            result_dict = sales_invoice_result[0]
+            dt.update({
+                "commercial_invoice_no": result_dict.get("commercial_invoice_no"),
+                "po_no": result_dict.get("po_no"),
+                "dc_no": result_dict.get("dc_no"),
+                "net_total": result_dict.get("net_total"),
+            })
+
+        for item in sales_invoice_result:
+            if item.get('account_head') == "GST - S&B":
+                dt.update({"gst_tax_amount": item.get("tax_amount")})
+            elif item.get('account_head') == "CARTAGE - S&B":
+                dt.update({"cartage_tax_amount": item.get("tax_amount")})
 
     data.extend(gl_entry_result)
     return data
