@@ -1,5 +1,5 @@
 {
- "add_total_row": 0,
+ "add_total_row": 1,
  "columns": [],
  "creation": "2023-12-03 19:54:35.939121",
  "disable_prepared_report": 1,
@@ -10,7 +10,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "Mehran Traders",
- "modified": "2023-12-03 19:54:35.939121",
+ "modified": "2023-12-05 22:59:01.678711",
  "modified_by": "Administrator",
  "module": "Mehran Reports",
  "name": "Mehran Ledger",

@@ -65,13 +65,13 @@ def get_columns():
         },
 
         {
-            "label": _("Debit"),
+            "label": _("Grand Total"),
             "fieldname": "debit",
             "fieldtype": "Currency",
             "width": 200
         },
         {
-            "label": _("Credit"),
+            "label": _("Paid Amount"),
             "fieldname": "credit",
             "fieldtype": "Currency",
             "width": 200
@@ -113,7 +113,7 @@ def get_data(filters):
                         `tabGL Entry`
                     WHERE
                          `tabGL Entry`.is_cancelled = 0 
-                         AND `tabGL Entry`.voucher_type IN ('Sales Invoice', 'Payment Entry') 
+                         AND `tabGL Entry`.voucher_type ='Sales Invoice'
                          AND `tabGL Entry`.party_type = 'Customer'
                          AND {conditions}
                     ORDER BY 
@@ -151,9 +151,6 @@ def get_data(filters):
         sales_invoice_result = frappe.db.sql(sales_invoice, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
         payment_entry_result = frappe.db.sql(payment_entry, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
 
-        debit_total = 0
-        credit_total = 0
-
         for item in sales_invoice_result:
             if item.get('account_head') == "GST - S&B":
                 dt.update({"gst_tax_amount": item.get("tax_amount")})
@@ -174,8 +171,9 @@ def get_data(filters):
             payment_entry_result_dict = payment_entry_result[0]
             dt.update({"credit": payment_entry_result_dict.get("allocated_amount", 0)})
 
+        dt.update({"balance": dt.get("debit", 0) - dt.get("credit", 0)})
 
-
+    # gl_entry_result = [gle for gle in gl_entry_result if gle["debit"] != 0 and gle["credit"] != 0]
     data.extend(gl_entry_result)
     return data
 
