@@ -51,7 +51,7 @@ def get_columns():
             "width": 120
         },
         {
-            "label": _("Cartage Tax"),
+            "label": _("Cartage"),
             "fieldname": "cartage_tax_amount",
             "fieldtype": "Currency",
             "width": 120
@@ -72,7 +72,7 @@ def get_columns():
         },
         {
             "label": _("Credit"),
-            "fieldname": "total_credit",
+            "fieldname": "paid_amount",
             "fieldtype": "Currency",
             "width": 120
         },
@@ -117,7 +117,7 @@ def get_data(filters):
                          AND `tabGL Entry`.party_type = 'Customer'
                          AND {conditions}
                     ORDER BY 
-                        `tabGL Entry`.voucher_no
+                        `tabGL Entry`.posting_date
                 """.format(conditions=get_conditions(filters, "GL Entry"))
 
     gl_entry_result = frappe.db.sql(gl_entry, filters, as_dict=1)
@@ -140,7 +140,16 @@ def get_data(filters):
                                  `tabSales Invoice`.docstatus = 1
                                  AND (`tabSales Invoice`.name = %(voucher_no)s)
                         """
+        payment_entry = """ SELECT
+                                `tabPayment Entry Reference`.allocated_amount
+                            FROM
+                                `tabPayment Entry`,`tabPayment Entry Reference`
+                            WHERE
+                                 `tabPayment Entry Reference`.parent = `tabPayment Entry`.name AND `tabPayment Entry`.docstatus = 1
+                                 AND (`tabPayment Entry Reference`.reference_name = %(voucher_no)s)
+                        """
         sales_invoice_result = frappe.db.sql(sales_invoice, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
+        payment_entry_result = frappe.db.sql(payment_entry, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
 
         if sales_invoice_result:
             result_dict = sales_invoice_result[0]
@@ -156,6 +165,9 @@ def get_data(filters):
                 dt.update({"gst_tax_amount": item.get("tax_amount")})
             elif item.get('account_head') == "CARTAGE - S&B":
                 dt.update({"cartage_tax_amount": item.get("tax_amount")})
+
+        for item in payment_entry_result:
+            dt.update({"paid_amount": item.get("allocated_amount")})
 
     data.extend(gl_entry_result)
     return data
