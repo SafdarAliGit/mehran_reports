@@ -19,10 +19,11 @@ def get_columns():
         },
         {
             "label": _("Inv/Pay #"),
-            "fieldname": "name",
-            "fieldtype": "Link",
-            "options": "Sales Invoice",
-            "width": 180
+            "fieldname": "voucher_no",
+            "fieldtype": "Dynamic Link",
+            "options": "voucher_type",
+            "width": 180,
+            "hidden": 0,
         },
         {
             "label": _("Commercial Inv#"),
@@ -105,7 +106,7 @@ def get_data(filters):
 
     gl_entry = """ SELECT
                         `tabGL Entry`.posting_date,
-                        `tabGL Entry`.voucher_no AS name,
+                        `tabGL Entry`.voucher_no,
                         `tabGL Entry`.account,
                         `tabGL Entry`.debit_in_account_currency AS debit
                     FROM
@@ -169,13 +170,12 @@ def get_data(filters):
                 "net_total": result_dict.get("net_total"),
             })
 
-            debit_total += result_dict.get("net_total", 0)
-
         if payment_entry_result:
             payment_entry_result_dict = payment_entry_result[0]
-            credit_total += payment_entry_result_dict.get("allocated_amount", 0)
+            dt.update({"credit": payment_entry_result_dict.get("allocated_amount", 0)})
 
-        dt.update({"debit": debit_total, "credit": credit_total})
+
 
     data.extend(gl_entry_result)
     return data
+
