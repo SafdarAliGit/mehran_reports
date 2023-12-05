@@ -19,11 +19,10 @@ def get_columns():
         },
         {
             "label": _("Inv/Pay #"),
-            "fieldname": "voucher_no",
-            "fieldtype": "Dynamic Link",
-            "options": "voucher_type",
-            "width": 180,
-            "hidden": 0,
+            "fieldname": "name",
+            "fieldtype": "Link",
+            "options": "Sales Invoice",
+            "width": 180
         },
         {
             "label": _("Commercial Inv#"),
@@ -72,7 +71,7 @@ def get_columns():
         },
         {
             "label": _("Credit"),
-            "fieldname": "paid_amount",
+            "fieldname": "credit",
             "fieldtype": "Currency",
             "width": 200
         },
@@ -106,7 +105,7 @@ def get_data(filters):
 
     gl_entry = """ SELECT
                         `tabGL Entry`.posting_date,
-                        `tabGL Entry`.voucher_no,
+                        `tabGL Entry`.voucher_no AS name,
                         `tabGL Entry`.account,
                         `tabGL Entry`.debit_in_account_currency AS debit
                     FROM
@@ -151,14 +150,8 @@ def get_data(filters):
         sales_invoice_result = frappe.db.sql(sales_invoice, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
         payment_entry_result = frappe.db.sql(payment_entry, {"voucher_no": dt.get("voucher_no")}, as_dict=1)
 
-        if sales_invoice_result:
-            result_dict = sales_invoice_result[0]
-            dt.update({
-                "commercial_invoice_no": result_dict.get("commercial_invoice_no"),
-                "po_no": result_dict.get("po_no"),
-                "dc_no": result_dict.get("dc_no"),
-                "net_total": result_dict.get("net_total"),
-            })
+        debit_total = 0
+        credit_total = 0
 
         for item in sales_invoice_result:
             if item.get('account_head') == "GST - S&B":
@@ -166,7 +159,23 @@ def get_data(filters):
             elif item.get('account_head') == "CARTAGE - S&B":
                 dt.update({"cartage_tax_amount": item.get("tax_amount")})
 
-        for item in payment_entry_result:
-            dt.update({"credit": item.get("allocated_amount")})
+        if sales_invoice_result:
+            result_dict = sales_invoice_result[0]
+
+            dt.update({
+                "commercial_invoice_no": result_dict.get("commercial_invoice_no"),
+                "po_no": result_dict.get("po_no"),
+                "dc_no": result_dict.get("dc_no"),
+                "net_total": result_dict.get("net_total"),
+            })
+
+            debit_total += result_dict.get("net_total", 0)
+
+        if payment_entry_result:
+            payment_entry_result_dict = payment_entry_result[0]
+            credit_total += payment_entry_result_dict.get("allocated_amount", 0)
+
+        dt.update({"debit": debit_total, "credit": credit_total})
+
     data.extend(gl_entry_result)
     return data
