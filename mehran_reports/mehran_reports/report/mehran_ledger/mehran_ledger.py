@@ -168,7 +168,5 @@ def get_data(filters):
 
         for item in payment_entry_result:
             dt.update({"credit": item.get("allocated_amount")})
-    for gl in gl_entry_result:
-        gl["balance"] = gl.get("debit") if gl.get("debit") else 0 - gl.get("credit") if gl.get("credit") else 0 - gl.get("gst_tax_amount") if gl.get("gst_tax_amount") else 0 - gl.get("cartage_tax_amount") if gl.get("cartage_tax_amount") else 0
     data.extend(gl_entry_result)
     return data
