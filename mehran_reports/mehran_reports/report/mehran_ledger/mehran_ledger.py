@@ -61,27 +61,27 @@ def get_columns():
             "label": _("Net Total"),
             "fieldname": "net_total",
             "fieldtype": "Currency",
-            "width": 120
+            "width": 200
         },
 
         {
             "label": _("Debit"),
             "fieldname": "total_debit",
             "fieldtype": "Currency",
-            "width": 120
+            "width": 200
         },
         {
             "label": _("Credit"),
             "fieldname": "paid_amount",
             "fieldtype": "Currency",
-            "width": 120
+            "width": 200
         },
 
         {
             "label": _("Balance"),
             "fieldname": "balance",
             "fieldtype": "Currency",
-            "width": 150
+            "width": 200
         }
 
     ]
