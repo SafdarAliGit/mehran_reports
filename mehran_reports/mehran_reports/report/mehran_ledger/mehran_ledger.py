@@ -66,7 +66,7 @@ def get_columns():
 
         {
             "label": _("Debit"),
-            "fieldname": "total_debit",
+            "fieldname": "debit",
             "fieldtype": "Currency",
             "width": 200
         },
@@ -108,7 +108,7 @@ def get_data(filters):
                         `tabGL Entry`.posting_date,
                         `tabGL Entry`.voucher_no,
                         `tabGL Entry`.account,
-                        `tabGL Entry`.debit_in_account_currency AS total_debit
+                        `tabGL Entry`.debit_in_account_currency AS debit
                     FROM
                         `tabGL Entry`
                     WHERE
@@ -167,7 +167,8 @@ def get_data(filters):
                 dt.update({"cartage_tax_amount": item.get("tax_amount")})
 
         for item in payment_entry_result:
-            dt.update({"paid_amount": item.get("allocated_amount")})
-
+            dt.update({"credit": item.get("allocated_amount")})
+    for gl in gl_entry_result:
+        gl["balance"] = gl.get("debit") if gl.get("debit") else 0 - gl.get("credit") if gl.get("credit") else 0 - gl.get("gst_tax_amount") if gl.get("gst_tax_amount") else 0 - gl.get("cartage_tax_amount") if gl.get("cartage_tax_amount") else 0
     data.extend(gl_entry_result)
     return data
