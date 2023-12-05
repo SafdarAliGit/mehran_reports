@@ -49,17 +49,25 @@ def get_columns():
         }
         ,
         {
-            "label": _("Sales Order Qty"),
-            "fieldname": "so_qty",
-            "fieldtype": "Data",
-            "width": 150
-        },{
             "label": _("Nos"),
             "fieldname": "nos",
             "fieldtype": "Data",
             "width": 150
         }
         ,
+        {
+            "label": _("Sales Order Qty"),
+            "fieldname": "so_qty",
+            "fieldtype": "Data",
+            "width": 150
+        },
+        {
+            "label": _("Rate"),
+            "fieldname": "rate",
+            "fieldtype": "Currency",
+            "width": 150
+        },
+
         {
             "label": _("DN Qty"),
             "fieldname": "dn_qty",
@@ -108,6 +116,7 @@ def get_data(filters):
             `tabSales Order Item`.description,
             `tabSales Order Item`.nos,
             `tabSales Order Item`.qty AS so_qty,
+            `tabSales Order Item`.rate,
             (
                 SELECT `tabDelivery Note Item`.qty
                 FROM `tabDelivery Note Item`,`tabDelivery Note`
