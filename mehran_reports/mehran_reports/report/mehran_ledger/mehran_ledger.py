@@ -18,7 +18,7 @@ def get_columns():
             "width": 120
         },
         {
-            "label": _("Inv/Pay #"),
+            "label": _("Invoice #"),
             "fieldname": "voucher_no",
             "fieldtype": "Dynamic Link",
             "options": "voucher_type",

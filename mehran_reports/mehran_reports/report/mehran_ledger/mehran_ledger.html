@@ -1,5 +1,4 @@
-<h2 class="text-center">{%= __("Statement of Account for ")  %} {%= filters.party %} {%= __("(")  %}  {%= filters.party_type %} {%= __(")")  %}  </h2>
-
+<h2 class="text-center">{%= __("Statement of Account for ")  %}: {%= filters.customer %}
 <h5 class="text-center">
 	{%= frappe.datetime.str_to_user(filters.from_date) %}
 	{%= __("to") %}
@@ -11,11 +10,11 @@
 	<thead>
 		<tr>
 			<th style="width: 7%">{%= __("Date") %}</th>
-			<th style="width: 10%">{%= __("Inv/Pay #") %}</th>
+			<th style="width: 10%">{%= __("Invoice #") %}</th>
 			<th style="width: 8%">{%= __("Commercial Inv#") %}</th>
 			<th style="width: 9%">{%= __("PO#") %}</th>
 			<th style="width: 8%">{%= __("DC#") %}</th>
-			<th style="width: 10%">{%= __("GST#") %}</th>
+			<th style="width: 10%">{%= __("GST") %}</th>
 		<th style="width: 8%">{%= __("Cartage") %}</th>
 			<th style="width: 10%">{%= __("Net Total") %}</th>
 			<th style="width: 10%">{%= __("Grand Total") %}</th>
