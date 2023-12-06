@@ -66,6 +66,11 @@ def get_columns():
             "fieldname": "rate",
             "fieldtype": "Currency",
             "width": 150
+        },{
+            "label": _("Amount"),
+            "fieldname": "amount",
+            "fieldtype": "Currency",
+            "width": 150
         },
 
         {
@@ -117,6 +122,7 @@ def get_data(filters):
             `tabSales Order Item`.nos,
             `tabSales Order Item`.qty AS so_qty,
             `tabSales Order Item`.rate,
+            `tabSales Order Item`.amount,
             (
                 SELECT `tabDelivery Note Item`.qty
                 FROM `tabDelivery Note Item`,`tabDelivery Note`
