@@ -31,15 +31,15 @@
 				<td>{%= data[i].commercial_invoice_no %}</td>
 				<td>{%= data[i].po_no %}</td>
 				<td>{%= data[i].dc_no %}</td>
-				<td style="text-align: right">{%= format_currency(data[i].gst_tax_amount,filters.presentation_currency) %}</td>
-				<td style="text-align: right">{%= format_currency(data[i].cartage_tax_amount,filters.presentation_currency) %}</td>
-				<td style="text-align: right">{%= format_currency(data[i].net_total,filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].gst_tax_amount|'%0.2f',filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].cartage_tax_amount|'%0.2f',filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].net_total|'%0.2f',filters.presentation_currency) %}</td>
 				<td style="text-align: right">
-					{%= format_currency(data[i].debit, filters.presentation_currency) %}</td>
+					{%= format_currency(data[i].debit|'%0.2f', filters.presentation_currency) %}</td>
 				<td style="text-align: right">
-					{%= format_currency(data[i].credit, filters.presentation_currency) %}</td>
+					{%= format_currency(data[i].credit|'%0.2f', filters.presentation_currency) %}</td>
 				<td style="text-align: right">
-					{%= format_currency(data[i].balance, filters.presentation_currency) %}
+					{%= format_currency(data[i].balance|'%0.2f', filters.presentation_currency) %}
 				</td>
 			</tr>
 		{% } %}
