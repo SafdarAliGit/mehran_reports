@@ -10,15 +10,17 @@
 <table class="table table-bordered">
 	<thead>
 		<tr>
-			<th style="width: 10%">{%= __("Date") %}</th>
-			<th style="width: 15%">{%= __("Inv/Pay #") %}</th>
-			<th style="width: 10%">{%= __("Commercial Inv#") %}</th>
-			<th style="width: 10%">{%= __("PO#") %}</th>
-			<th style="width: 10%">{%= __("DC#") %}</th>
+			<th style="width: 7%">{%= __("Date") %}</th>
+			<th style="width: 10%">{%= __("Inv/Pay #") %}</th>
+			<th style="width: 8%">{%= __("Commercial Inv#") %}</th>
+			<th style="width: 9%">{%= __("PO#") %}</th>
+			<th style="width: 8%">{%= __("DC#") %}</th>
+			<th style="width: 10%">{%= __("GST#") %}</th>
+		<th style="width: 8%">{%= __("Cartage") %}</th>
 			<th style="width: 10%">{%= __("Net Total") %}</th>
-			<th style="width: 15%">{%= __("Debit") %}</th>
-			<th style="width: 15%">{%= __("Credit") %}</th>
-			<th style="width: 15%">{%= __("Balance (Dr - Cr)") %}</th>
+			<th style="width: 10%">{%= __("Grand Total") %}</th>
+			<th style="width: 10%">{%= __("Paid Amount") %}</th>
+			<th style="width: 10%">{%= __("Balance (Dr - Cr)") %}</th>
 
 		</tr>
 	</thead>
@@ -30,7 +32,9 @@
 				<td>{%= data[i].commercial_invoice_no %}</td>
 				<td>{%= data[i].po_no %}</td>
 				<td>{%= data[i].dc_no %}</td>
-				<td>{%= format_currency(data[i].net_total,filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].gst_tax_amount,filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].cartage_tax_amount,filters.presentation_currency) %}</td>
+				<td style="text-align: right">{%= format_currency(data[i].net_total,filters.presentation_currency) %}</td>
 				<td style="text-align: right">
 					{%= format_currency(data[i].debit, filters.presentation_currency) %}</td>
 				<td style="text-align: right">

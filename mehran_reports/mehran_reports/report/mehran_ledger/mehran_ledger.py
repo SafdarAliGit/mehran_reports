@@ -45,7 +45,7 @@ def get_columns():
             "width": 180
         },
         {
-            "label": _("GST Tax"),
+            "label": _("GST"),
             "fieldname": "gst_tax_amount",
             "fieldtype": "Currency",
             "width": 120
@@ -108,7 +108,7 @@ def get_data(filters):
                         `tabGL Entry`.posting_date,
                         `tabGL Entry`.voucher_no,
                         `tabGL Entry`.account,
-                        `tabGL Entry`.debit_in_account_currency AS debit
+                        ROUND(`tabGL Entry`.debit_in_account_currency,2) AS debit
                     FROM
                         `tabGL Entry`
                     WHERE
@@ -127,8 +127,8 @@ def get_data(filters):
                                 `tabSales Invoice`.commercial_invoice_no,
                                 `tabSales Invoice`.po_no,
                                 `tabSales Invoice`.dc_no,
-                                `tabSales Invoice`.net_total,
-                                `tabSales Taxes and Charges`.tax_amount,
+                                ROUND(`tabSales Invoice`.net_total,2) AS net_total,
+                                ROUND(`tabSales Taxes and Charges`.tax_amount,2) AS tax_amount,
                                 `tabSales Taxes and Charges`.account_head
                             FROM
                                 `tabSales Invoice`
@@ -141,7 +141,7 @@ def get_data(filters):
                                  AND (`tabSales Invoice`.name = %(voucher_no)s)
                         """
         payment_entry = """ SELECT
-                                `tabPayment Entry Reference`.allocated_amount
+                                ROUND(`tabPayment Entry Reference`.allocated_amount,2) AS allocated_amount
                             FROM
                                 `tabPayment Entry`,`tabPayment Entry Reference`
                             WHERE
