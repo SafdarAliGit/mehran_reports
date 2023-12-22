@@ -134,7 +134,7 @@ def get_data(filters):
         WHERE 
             `tabSales Order`.name = `tabSales Order Item`.parent
             AND 
-            `tabSales Order`.docstatus <= 1
+            `tabSales Order`.docstatus <= 1 AND `tabSales Order`.status != 'Closed'
             AND 
             {conditions}
     """.format(conditions=get_conditions(filters, "Sales Order"))
