@@ -124,7 +124,7 @@ def get_data(filters):
             `tabSales Order Item`.rate,
             `tabSales Order Item`.amount,
             (
-                SELECT `tabDelivery Note Item`.qty
+                SELECT SUM(`tabDelivery Note Item`.qty)
                 FROM `tabDelivery Note Item`,`tabDelivery Note`
                 WHERE `tabSales Order`.name = `tabDelivery Note Item`.against_sales_order AND `tabSales Order Item`.item_code  =  `tabDelivery Note Item`.item_code AND `tabDelivery Note`.name = `tabDelivery Note Item`.parent AND `tabDelivery Note`.docstatus <= 1
             ) AS dn_qty
